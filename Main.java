@@ -1,41 +1,33 @@
-
 import java.util.Scanner;
 
-public class Calculator {
-    public static void main(String[] args) {
-        // Объявляем объект "Converter" он будет помогать нам с определением римских цифр
-        Converter converter = new Converter();
-        String[] actions = {"+", "-", "/", "*"};
-        String[] regexActions = {" \\+ ", " - ", " / ", " \\* "};
+public class Main {
+    public static void main(String[] args){
+        
         Scanner scn = new Scanner(System.in);
         System.out.print("Введите выражение: ");
-        String exp = scn.nextLine();
-        //Определяем арифметическое действие:
+        String input = scn.nextLine();
+        System.out.println(calc(input));
+    }
+
+    public static String calc(String input){
+        // Конвертирует арабские числа в римские
+        Converter converter = new Converter();
+        // Массивы для определения математической операции
+        String[] actions = {"+", "-", "/", "*"};
+        String[] regexActions = {" \\+ ", " - ", " / ", " \\* "};
+        // Проверяем математическую операцию
         int actionIndex=-1;
         for (int i = 0; i < actions.length; i++) {
-            if(exp.contains(actions[i])){
+            if(input.contains(actions[i])){
                 actionIndex = i;
                 break;
             }
         }
-
-        int len = exp.length();
-        int newlen = exp.replaceAll(" ", "").length();
-        int space = (len - newlen);
-            if(space > 2) {
-                System.out.println("формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
-                return;
+        if(actionIndex == -1){
+            return "строка не является математической операцией";
         }
-
-        //Если не нашли арифметического действия, завершаем программу
-        if(actionIndex==-1){
-            System.out.println("строка не является математической операцией");
-            return;
-        }
-
-
         //Делим строчку по найденному арифметическому знаку
-        String[] data = exp.split(regexActions[actionIndex]);
+        String[] data = input.split(regexActions[actionIndex]);
         //Определяем, находятся ли числа в одном формате (оба римские или оба арабские)
         if(converter.isRoman(data[0]) == converter.isRoman(data[1])){
             int a,b;
@@ -56,8 +48,8 @@ public class Calculator {
             }
 
             if(a > 10 | b > 10){
-                System.out.println("Числа должны быть не больше 10");
-                return;
+                return "Числа должны быть не больше 10";
+                
             }
 
             //выполняем с числами арифметическое действие
@@ -80,16 +72,15 @@ public class Calculator {
             //15->XV
             if(isRoman){
                 //если числа были римские, возвращаем результат в римском числе
-                System.out.println(converter.intToRoman(result));
+                return converter.intToRoman(result);
             }
             else{
                 //если числа были арабские, возвращаем результат в арабском числе
-                System.out.println(result);
+                return String.valueOf(result);
             }
         }else{
-            System.out.println("Числа должны быть в одном формате");
+            return "Числа должны быть в одном формате";
         }
-
-
+        
     }
 }
