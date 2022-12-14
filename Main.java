@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
         
         Scanner scn = new Scanner(System.in);
         System.out.print("Введите выражение: ");
@@ -9,7 +9,7 @@ public class Main {
         System.out.println(calc(input));
     }
 
-    public static String calc(String input){
+    public static String calc(String input) throws Exception{
         // Конвертирует арабские числа в римские
         Converter converter = new Converter();
         // Массивы для определения математической операции
@@ -24,11 +24,19 @@ public class Main {
             }
         }
         if(actionIndex == -1){
-            return "строка не является математической операцией";
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                return "throws Exception //т.к. строка не является математической операцией";
+            }
         }
 
         if(input.split(" ").length > 3){
-            return "формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)";
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                return "throws Exception //т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)";
+            }
         }
 
         //Делим строчку по найденному арифметическому знаку
@@ -53,8 +61,11 @@ public class Main {
             }
 
             if(a > 10 | b > 10){
-                return "Числа должны быть не больше 10";
-                
+                try {
+                    throw new Exception();
+                } catch (Exception e) {
+                    return "throws Exception //т.к. числа должны быть не больше 10";
+                }   
             }
 
             //выполняем с числами арифметическое действие
@@ -77,7 +88,11 @@ public class Main {
             //15->XV
             if(isRoman){
                 if(result < 0){
-                    return "т.к. в римской системе нет отрицательных чисел";
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        return "throws Exception //т.к. в римской системе нет отрицательных чисел";
+                    }
                 }
                 //если числа были римские, возвращаем результат в римском числе
                 return converter.intToRoman(result);
@@ -87,7 +102,11 @@ public class Main {
                 return String.valueOf(result);
             }
         }else{
-            return "Числа должны быть в одном формате";
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                return "throws Exception //т.к. используются одновременно разные системы счисления";
+            }
         }
         
     }
